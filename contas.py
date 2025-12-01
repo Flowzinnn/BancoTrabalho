@@ -23,11 +23,14 @@ class Conta_Corrente(Conta, Tributavel):
         self._limite = value
      
     def sacar(self, valor: float):
-        Exceptions.validar_saque_corrente(self._saldo, self._limite, valor)
-        self._saldo -= valor
-        transacao = Transacao("Saque", valor, self)
-        self._transacoes.append(transacao)
-        Notificacao.saque(valor)
+        try:
+            Exceptions.validar_saque_corrente(self._saldo, self._limite, valor)
+            self._saldo -= valor
+            transacao = Transacao("Saque", valor, self)
+            self._transacoes.append(transacao)
+            Notificacao.saque(valor)
+        except (Exceptions.ValorInvalidoError, Exceptions.LimiteExcedidoError) as e:
+            print(f"Erro: {e}")
 
     def aplicar_taxas(self):
         self._saldo -= self._taxa_manutencao
@@ -48,11 +51,14 @@ class Conta_Poupanca(Conta, Rentavel):
         return f"🏦 Conta Poupança Nº {self.numero} | Saldo: R$ {self.saldo:,.2f} | Rendimento: {self.taxa_rendimento:.2f}%"
 
     def sacar(self, valor: float):
-        Exceptions.validar_saque_poupanca(self._saldo, valor)
-        self._saldo -= valor
-        transacao = Transacao("Saque", valor, self)
-        self._transacoes.append(transacao)
-        Notificacao.saque(valor)
+        try:
+            Exceptions.validar_saque_poupanca(self._saldo, valor)
+            self._saldo -= valor
+            transacao = Transacao("Saque", valor, self)
+            self._transacoes.append(transacao)
+            Notificacao.saque(valor)
+        except (Exceptions.ValorInvalidoError, Exceptions.SaldoInsuficienteError) as e:
+            print(f"Erro: {e}")
 
     def aplicar_taxas(self):
         pass

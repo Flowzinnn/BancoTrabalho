@@ -59,11 +59,14 @@ class Conta(Autenticavel):
         return self.senha == senha
         
     def depositar(self, valor: float):
-        Exceptions.validar_valor_positivo(valor)
-        self._saldo += valor
-        transacao = Transacao("Depósito", valor, self)
-        self._transacoes.append(transacao)
-        Notificacao.deposito(valor)
+        try:
+            Exceptions.validar_valor_positivo(valor)
+            self._saldo += valor
+            transacao = Transacao("Depósito", valor, self)
+            self._transacoes.append(transacao)
+            Notificacao.deposito(valor)
+        except Exceptions.ValorInvalidoError as e:
+            print(f"Erro: {e}")
     
     #========================================================= EXTRATO ===============================================================#
     
