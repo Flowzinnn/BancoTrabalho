@@ -2,6 +2,7 @@ from datetime import datetime
 from conta import Conta
 from interfaces import Tributavel, Rentavel
 from auxiliares import Transacao, Notificacao
+from excecoes import Exceptions
 
 class Conta_Corrente(Conta, Tributavel):
     def __init__(self, numero: str, cliente: 'Cliente', saldo: float, senha: str, limite: float):
@@ -22,14 +23,7 @@ class Conta_Corrente(Conta, Tributavel):
         self._limite = value
      
     def sacar(self, valor: float):
-        if valor <= 0:
-            Notificacao.erro_valor_invalido()
-            return
-
-        if valor > self._saldo + self._limite:
-            Notificacao.erro_limite_excedido()
-            return
-
+        Exceptions.validar_saque_corrente(self._saldo, self._limite, valor)
         self._saldo -= valor
         transacao = Transacao("Saque", valor, self)
         self._transacoes.append(transacao)
@@ -54,22 +48,14 @@ class Conta_Poupanca(Conta, Rentavel):
         return f"🏦 Conta Poupança Nº {self.numero} | Saldo: R$ {self.saldo:,.2f} | Rendimento: {self.taxa_rendimento:.2f}%"
 
     def sacar(self, valor: float):
-        if valor <= 0:
-            Notificacao.erro_valor_invalido()
-            return
-
-        if valor > self._saldo:
-            Notificacao.erro_saldo_insuficiente()
-            return
-
+        Exceptions.validar_saque_poupanca(self._saldo, valor)
         self._saldo -= valor
         transacao = Transacao("Saque", valor, self)
         self._transacoes.append(transacao)
         Notificacao.saque(valor)
 
     def aplicar_taxas(self):
-        # Poupança geralmente não tem taxa, mas só pra cumprir o método
-        Notificacao.sem_taxa_poupanca()
+        pass
         
     def get_rendimento(self) -> float:
         rendimento = self.saldo * (self.taxa_rendimento / 100)
