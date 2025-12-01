@@ -12,18 +12,6 @@ class Notificacao(ABC):
         print(f"✅ Saque de R$ {valor:.2f} realizado com sucesso.")
 
     @staticmethod
-    def erro_valor_invalido():
-        print("⚠️ Valor inválido.")
-
-    @staticmethod
-    def erro_saldo_insuficiente():
-        print("❌ Saldo insuficiente.")
-
-    @staticmethod
-    def erro_limite_excedido():
-        print("❌ Valor excede o limite da conta.")
-
-    @staticmethod
     def taxa_manutencao(valor):
         print(f"⚙️ Taxa de manutenção de R$ {valor:.2f} aplicada.")
 
@@ -79,7 +67,7 @@ class Notificacao(ABC):
         
     @staticmethod
     def sem_taxa_poupanca():
-        print("ℹ️ Conta Poupança não possui taxa de manutenção.")
+        pass
 
   
 class Endereco:
