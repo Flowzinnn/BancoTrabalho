@@ -1,5 +1,6 @@
 from datetime import date
 from auxiliares import Endereco
+from excecoes import Exceptions
 from pessoas import Cliente
 from contas import Conta_Corrente, Conta_Poupanca
 from banco import Banco, Agencia   
@@ -18,6 +19,11 @@ def main():
     # Realizando operações
     contaCorrenteNicolas001.depositar(500)
     contaCorrenteNicolas001.sacar(150)
+    
+    # Testando operações com erro
+    contaCorrenteNicolas001.sacar(6500)  # deve dar erro de limite
+    contaPoupancaNicolas001.sacar(20000)  # deve dar erro de saldo
+    contaCorrenteNicolas001.depositar(-100)  # deve dar erro de valor inválido
 
     # Imprimindo extrato
     contaCorrenteNicolas001.extrato()
@@ -35,6 +41,7 @@ def main():
     print(bancoWolf)
 
     bancoWolf.listar_agencias()
-
+        
 if __name__ == '__main__':
     main()
+    
