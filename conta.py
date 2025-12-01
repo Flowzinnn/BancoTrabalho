@@ -2,6 +2,7 @@ from typing import List
 from abc import abstractmethod
 from interfaces import Autenticavel
 from auxiliares import Transacao, Notificacao
+from excecoes import Exceptions
 
 #Classe Abstrata/Abstract class : CLASSES ABSTRATAS NUNCA IRÃO GERAR UM OBJETO;
 class Conta(Autenticavel):
@@ -58,10 +59,7 @@ class Conta(Autenticavel):
         return self.senha == senha
         
     def depositar(self, valor: float):
-        if valor <= 0:
-            Notificacao.erro_valor_invalido()
-            return
-
+        Exceptions.validar_valor_positivo(valor)
         self._saldo += valor
         transacao = Transacao("Depósito", valor, self)
         self._transacoes.append(transacao)
