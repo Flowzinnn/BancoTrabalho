@@ -1,5 +1,6 @@
 from typing import List, TYPE_CHECKING
 from abc import abstractmethod
+import hashlib
 from interfaces import Autenticavel
 from auxiliares import Transacao, Notificacao
 from excecoes import Exceptions
@@ -13,7 +14,7 @@ class Conta(Autenticavel):
         self._numero = numero
         self._cliente = cliente
         self._saldo = saldo 
-        self._senha = senha
+        self._senha = self._criptografar_senha(senha)
         self._transacoes: List['Transacao'] = []
         
         cliente.adicionar_conta(self)
@@ -45,12 +46,6 @@ class Conta(Autenticavel):
     @property
     def senha(self):
         return self._senha
-
-    @senha.setter
-    def senha(self, value):
-        if not value or len(str(value)) < 4:
-            raise ValueError("Senha deve ter pelo menos 4 caracteres")
-        self._senha = value
         
     @abstractmethod
     def sacar(self, valor: float):
@@ -60,8 +55,24 @@ class Conta(Autenticavel):
     def aplicar_taxas(self):
         pass
 
-    def autenticar(self, senha):
-        return self.senha == senha
+    def _criptografar_senha(self, senha: str) -> str:
+        """Criptografa a senha usando SHA-256"""
+        if not senha or len(str(senha)) < 4:
+            raise ValueError("Senha deve ter pelo menos 4 caracteres")
+        return hashlib.sha256(senha.encode()).hexdigest()
+
+    def autenticar(self, senha: str) -> bool:
+        """Autentica comparando hash da senha fornecida com a armazenada"""
+        senha_hash = self._criptografar_senha(senha)
+        return self._senha == senha_hash
+    
+    def alterar_senha(self, senha_antiga: str, senha_nova: str) -> bool:
+        """Altera a senha após autenticar com a senha antiga"""
+        if not self.autenticar(senha_antiga):
+            raise Exceptions.AutenticacaoError("Senha antiga incorreta")
+        
+        self._senha = self._criptografar_senha(senha_nova)
+        return True
         
     def depositar(self, valor: float):
         try:
