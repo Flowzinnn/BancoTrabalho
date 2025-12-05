@@ -1,34 +1,37 @@
 from datetime import datetime
-from abc import ABC
+from typing import TYPE_CHECKING
 
-class Notificacao(ABC):
+if TYPE_CHECKING:
+    from conta import Conta
+
+class Notificacao:
     
     @staticmethod
     def deposito(valor):
-        print(f"✅ Depósito de R$ {valor:.2f} realizado com sucesso.")
+        print(f"Depósito de R$ {valor:.2f} realizado com sucesso.")
 
     @staticmethod
     def saque(valor):
-        print(f"✅ Saque de R$ {valor:.2f} realizado com sucesso.")
+        print(f"Saque de R$ {valor:.2f} realizado com sucesso.")
 
     @staticmethod
     def taxa_manutencao(valor):
-        print(f"⚙️ Taxa de manutenção de R$ {valor:.2f} aplicada.")
+        print(f"Taxa de manutenção de R$ {valor:.2f} aplicada.")
 
     @staticmethod
     def nenhuma_transacao():
-        print("⚠️  Nenhuma transação realizada.")
+        print("Nenhuma transação realizada.")
 
     @staticmethod
     def cabecalho_extrato():
         print("\n" + "="*40)
-        print(f"{'🧾 EXTRATO BANCÁRIO':^40}")
+        print(f"{'EXTRATO BANCÁRIO':^40}")
         print("="*40)
 
     @staticmethod
     def cabecalho_conta(numero, nome_cliente):
-        print(f"📄 Conta: {numero}")
-        print(f"🙍 Cliente: {nome_cliente}")
+        print(f"Conta: {numero}")
+        print(f"Cliente: {nome_cliente}")
         print("-"*40)
 
     @staticmethod
@@ -39,35 +42,31 @@ class Notificacao(ABC):
 
     @staticmethod
     def listar_contas(cliente_nome):
-        print(f"\n📘 Contas de {cliente_nome}:")
+        print(f"\nContas de {cliente_nome}:")
 
     @staticmethod
     def nenhuma_conta():
-        print("⚠️ Nenhuma conta cadastrada.")
+        print("Nenhuma conta cadastrada.")
 
     @staticmethod
     def listar_agencias_do_banco(nome_banco):
-        print(f"\n📝 Agências do {nome_banco}:")
+        print(f"\nAgências do {nome_banco}:")
 
     @staticmethod
     def nenhuma_agencia():
-        print("⚠️ Não há agências cadastradas.")
+        print("Não há agências cadastradas.")
         
     @staticmethod
     def agencia_detalhes(agencia):
-        print(f"🏦 {agencia.nome} | Nº: {agencia.numero} | 📍 {agencia.endereco} | 📞 {agencia.fone}")
+        print(f"{agencia.nome} | Nº: {agencia.numero} | Endereço: {agencia.endereco} | Telefone: {agencia.fone}")
         
     @staticmethod
     def conta_enumerada(indice, conta):
-        print(f"{indice}️⃣ {conta}")
+        print(f"{indice}. {conta}")
         
     @staticmethod
     def mostrar_transacao(transacao: 'Transacao'):
         print(transacao)
-        
-    @staticmethod
-    def sem_taxa_poupanca():
-        pass
 
   
 class Endereco:

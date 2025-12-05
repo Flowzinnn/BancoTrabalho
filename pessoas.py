@@ -1,7 +1,10 @@
 from datetime import date
-from typing import List
+from typing import List, TYPE_CHECKING
 from pessoa import Pessoa
 from auxiliares import Notificacao
+
+if TYPE_CHECKING:
+    from conta import Conta
 
 class Cliente(Pessoa):
     def __init__(self, nome: str, cpf: str, data_nascimento: date, cnh: str):
@@ -10,7 +13,7 @@ class Cliente(Pessoa):
         self._contas: List['Conta'] = []
         
     def __str__(self):
-        return f"🙍 Cliente: {self.nome} | CPF: {self.cpf}"
+        return f"Cliente: {self.nome} | CPF: {self.cpf}"
 
 
     @property

@@ -1,15 +1,18 @@
-from typing import List
+from typing import List, TYPE_CHECKING
 from abc import abstractmethod
 from interfaces import Autenticavel
 from auxiliares import Transacao, Notificacao
 from excecoes import Exceptions
+
+if TYPE_CHECKING:
+    from pessoas import Cliente
 
 #Classe Abstrata/Abstract class : CLASSES ABSTRATAS NUNCA IRÃO GERAR UM OBJETO;
 class Conta(Autenticavel):
     def __init__(self, numero: str, cliente: 'Cliente', saldo: float, senha: str):
         self._numero = numero
         self._cliente = cliente
-        self._saldo =saldo 
+        self._saldo = saldo 
         self._senha = senha
         self._transacoes: List['Transacao'] = []
         

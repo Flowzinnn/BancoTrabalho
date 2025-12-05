@@ -1,8 +1,12 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 from conta import Conta
 from interfaces import Tributavel, Rentavel
 from auxiliares import Transacao, Notificacao
 from excecoes import Exceptions
+
+if TYPE_CHECKING:
+    from pessoas import Cliente
 
 class Conta_Corrente(Conta, Tributavel):
     def __init__(self, numero: str, cliente: 'Cliente', saldo: float, senha: str, limite: float):
@@ -11,7 +15,7 @@ class Conta_Corrente(Conta, Tributavel):
         self._taxa_manutencao = 10.0
         
     def __str__(self):
-        return f"💳 Conta Corrente Nº {self.numero} | Saldo: R$ {self.saldo:,.2f} | Limite: R$ {self.limite:,.2f}"
+        return f"Conta Corrente Nº {self.numero} | Saldo: R$ {self.saldo:,.2f} | Limite: R$ {self.limite:,.2f}"
 
 
     @property
@@ -48,7 +52,7 @@ class Conta_Poupanca(Conta, Rentavel):
         self._data_aniversario = datetime.now().day
         
     def __str__(self):
-        return f"🏦 Conta Poupança Nº {self.numero} | Saldo: R$ {self.saldo:,.2f} | Rendimento: {self.taxa_rendimento:.2f}%"
+        return f"Conta Poupança Nº {self.numero} | Saldo: R$ {self.saldo:,.2f} | Rendimento: {self.taxa_rendimento:.2f}%"
 
     def sacar(self, valor: float):
         try:

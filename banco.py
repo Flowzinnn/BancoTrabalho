@@ -1,5 +1,8 @@
-from typing import List
+from typing import List, TYPE_CHECKING
 from auxiliares import Endereco, Notificacao
+
+if TYPE_CHECKING:
+    from conta import Conta
 
 class Banco:
     def __init__(self, nome: str, cnpj: str, endereco: Endereco, fone: str) -> None:
@@ -10,7 +13,7 @@ class Banco:
         self._agencias: List['Agencia'] = []
         
     def __str__(self):
-        return f"🏦 Banco: {self._nome}, CNPJ: {self._cnpj}, Endereço: {self._endereco}, Telefone: {self._fone}"
+        return f"Banco: {self._nome}, CNPJ: {self._cnpj}, Endereço: {self._endereco}, Telefone: {self._fone}"
 
     @property
     def nome(self):
@@ -61,10 +64,10 @@ class Agencia:
         self._numero = numero
         self._endereco = endereco
         self._fone = fone
-        self.contas: List['Conta'] = []
+        self._contas: List['Conta'] = []
     
     def __str__(self):
-        return f"🏢 Agência: {self._nome}, Número: {self._numero}, Endereço: {self._endereco}, Telefone: {self._fone}"
+        return f"Agência: {self._nome}, Número: {self._numero}, Endereço: {self._endereco}, Telefone: {self._fone}"
     
     @property
     def nome(self):
@@ -97,3 +100,7 @@ class Agencia:
     @fone.setter
     def fone(self, value):
         self._fone = value
+
+    @property
+    def contas(self):
+        return self._contas
