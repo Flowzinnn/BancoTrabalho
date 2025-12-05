@@ -48,6 +48,8 @@ class Conta(Autenticavel):
 
     @senha.setter
     def senha(self, value):
+        if not value or len(str(value)) < 4:
+            raise ValueError("Senha deve ter pelo menos 4 caracteres")
         self._senha = value
         
     @abstractmethod

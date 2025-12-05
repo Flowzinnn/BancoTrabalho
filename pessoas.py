@@ -26,7 +26,7 @@ class Cliente(Pessoa):
 
     @property
     def contas(self):
-        return self._contas
+        return tuple(self._contas)
 
     def adicionar_conta(self, conta: 'Conta'):
         self._contas.append(conta)
@@ -68,4 +68,6 @@ class Funcionario(Pessoa):
 
     @salario.setter
     def salario(self, value):
+        if value < 0:
+            raise ValueError("Salário não pode ser negativo")
         self._salario = value

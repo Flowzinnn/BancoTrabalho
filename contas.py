@@ -24,6 +24,8 @@ class Conta_Corrente(Conta, Tributavel):
 
     @limite.setter
     def limite(self, value):
+        if value < 0:
+            raise ValueError("Limite não pode ser negativo")
         self._limite = value
      
     def sacar(self, valor: float):
@@ -77,6 +79,8 @@ class Conta_Poupanca(Conta, Rentavel):
 
     @taxa_rendimento.setter
     def taxa_rendimento(self, value):
+        if value < 0:
+            raise ValueError("Taxa de rendimento não pode ser negativa")
         self._taxa_rendimento = value
 
     @property
