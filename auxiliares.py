@@ -67,6 +67,22 @@ class Notificacao:
     @staticmethod
     def mostrar_transacao(transacao: 'Transacao'):
         print(transacao)
+        
+    @staticmethod
+    def senha_alterada():
+        print("Senha alterada com sucesso!")
+    
+    @staticmethod
+    def autenticacao_sucesso():
+        print("Autenticação realizada com sucesso!")
+    
+    @staticmethod
+    def autenticacao_falhou():
+        print("Falha na autenticação: senha incorreta.")
+    
+    @staticmethod
+    def erro_autenticacao(mensagem):
+        print(f"Erro de autenticação: {mensagem}")
 
   
 class Endereco:
