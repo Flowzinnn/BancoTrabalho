@@ -103,4 +103,4 @@ class Agencia:
 
     @property
     def contas(self):
-        return self._contas
+        return tuple(self._contas)
