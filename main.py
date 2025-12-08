@@ -25,25 +25,15 @@ def main():
     contaPoupancaNicolas001.sacar(20000)  # deve dar erro de saldo
     contaCorrenteNicolas001.depositar(-100)  # deve dar erro de valor inválido
     
-    # Testando autenticação e alteração de senha
-    print("\n--- Testando Autenticação ---")
-    print(f"Autenticação com senha correta: {contaCorrenteNicolas001.autenticar('1234')}")
-    print(f"Autenticação com senha errada: {contaCorrenteNicolas001.autenticar('9999')}")
+    # Testando autenticação
+    contaCorrenteNicolas001.autenticar('1234')
+    contaCorrenteNicolas001.autenticar('9999')
     
-    print("\n--- Testando Alteração de Senha ---")
-    try:
-        contaCorrenteNicolas001.alterar_senha("1234", "novo1234")
-        print("Senha alterada com sucesso!")
-        print(f"Autenticação com senha antiga: {contaCorrenteNicolas001.autenticar('1234')}")
-        print(f"Autenticação com senha nova: {contaCorrenteNicolas001.autenticar('novo1234')}")
-    except Exceptions.AutenticacaoError as e:
-        print(f"Erro: {e}")
-    
-    print("\n--- Tentando alterar com senha antiga errada ---")
-    try:
-        contaCorrenteNicolas001.alterar_senha("senha_errada", "outra_senha")
-    except Exceptions.AutenticacaoError as e:
-        print(f"Erro: {e}")
+    # Testando alteração de senha
+    contaCorrenteNicolas001.alterar_senha("1234", "novo1234")
+    contaCorrenteNicolas001.autenticar('1234')
+    contaCorrenteNicolas001.autenticar('novo1234')
+    contaCorrenteNicolas001.alterar_senha("senha_errada", "outra_senha")
 
     # Imprimindo extrato
     contaCorrenteNicolas001.extrato()
