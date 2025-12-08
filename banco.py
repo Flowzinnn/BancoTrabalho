@@ -46,6 +46,8 @@ class Banco:
     @fone.setter
     def fone(self, value):
         self._fone = value
+        
+    #Tudo que for do banco fica no banco
 
     def adicionar_agencia(self, *agencias: 'Agencia'):
         self._agencias.extend(agencias)
