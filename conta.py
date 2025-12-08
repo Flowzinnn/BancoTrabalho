@@ -8,7 +8,6 @@ from excecoes import Exceptions
 if TYPE_CHECKING:
     from pessoas import Cliente
 
-#Classe Abstrata/Abstract class : CLASSES ABSTRATAS NUNCA IRÃO GERAR UM OBJETO;
 class Conta(Autenticavel):
     def __init__(self, numero: str, cliente: 'Cliente', saldo: float, senha: str):
         self._numero = numero
@@ -62,17 +61,28 @@ class Conta(Autenticavel):
         return hashlib.sha256(senha.encode()).hexdigest()
 
     def autenticar(self, senha: str) -> bool:
-        """Autentica comparando hash da senha fornecida com a armazenada"""
         senha_hash = self._criptografar_senha(senha)
-        return self._senha == senha_hash
+        resultado = self._senha == senha_hash
+        
+        if resultado:
+            Notificacao.autenticacao_sucesso()
+        else:
+            Notificacao.autenticacao_falhou()       
+        return resultado
     
     def alterar_senha(self, senha_antiga: str, senha_nova: str) -> bool:
-        """Altera a senha após autenticar com a senha antiga"""
-        if not self.autenticar(senha_antiga):
-            raise Exceptions.AutenticacaoError("Senha antiga incorreta")
-        
-        self._senha = self._criptografar_senha(senha_nova)
-        return True
+        try:
+            if not self._senha == self._criptografar_senha(senha_antiga):
+                raise Exceptions.AutenticacaoError("Senha antiga incorreta")        
+            self._senha = self._criptografar_senha(senha_nova)
+            Notificacao.senha_alterada()
+            return True
+        except Exceptions.AutenticacaoError as e:
+            Notificacao.erro_autenticacao(str(e))
+            return False
+        except ValueError as e:
+            Notificacao.erro_autenticacao(str(e))
+            return False
         
     def depositar(self, valor: float):
         try:
